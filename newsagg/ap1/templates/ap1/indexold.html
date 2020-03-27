@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<style>
+	body{
+		background-color: black;
+		color:white;
+		font-size:14px;
+
+	}
+	.heading{
+		background-color: white;
+		color:black;
+	}
+
+	.box{
+		width:300px;
+		border-top:1px solid white;
+		border-left:1px solid white;
+		border-right:1px solid white;
+		border-bottom:1px solid white;
+		padding :20px;
+		margin:20px;
+		float:left;
+		height:400px;
+		background-color: rgba(126,195,241,0.3);
+		}
+.box:hover:after{
+	
+	background-color:rgba(255,255,255,0.5);
+	content: 'Read More';
+
+}
+
+</style>
+<body>
+    <div class="heading">
+        <h1>News Aggregator</h1>
+           <a href="/" class="btn btn-danger">Refresh News</a>
+        </form>
+    
+   </div>
+    <div class="container">
+    				
+                    {% for key,value in res.items%}
+                    <div class="box">
+                    	<header class="w3-container w3-yellow">
+                    		<h5>{{key}} </h5>
+                		</header>
+                	 	<br>
+		   			 	<p> {{value}}</p>
+                    </div> 
+                    {% endfor %}
+                 
+               
+                
+                    {% for key,value in newsdict1.items %}
+                    <div class="box">
+                    <header class="w3-container w3-yellow">
+                    <h5> - {{key}} </h5>
+                </header>
+                <br>
+		            <p> {{value}} </p>
+              
+		   				<footer class="w3-container w3-blue foot">
+     				 		<h5>Read More</h5>
+   						</footer>
+                    
+                     </div>   
+                    {% endfor %}
+                    <br>
+               
+            </div>
+        </div>
+	</div>
+  <script
+src="http://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <META HTTP-EQUIV="refresh" CONTENT="15">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<style>
+
+ul {
+  list-style-type: none;
+  margin-top: 10%;
+  padding: 15px;
+  width: 10%;
+  background-color:(0,0,0,0.8);
+  position: fixed;
+  height: 70%;
+  font-size: 16px;
+  overflow: auto;
+}
+
+li a {
+  background-color:rgba(0,0,0,0.8);
+  display: block;
+  color:white;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: rgba(15, 119, 192,0.7);
+  color: white;
+  text-decoration: none
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+}
+
+#box {	
+		width:250px;
+		border-top:1px solid white;
+		border-left:1px solid white;
+		border-right:1px solid white;
+		border-bottom:1px solid white;
+		padding :25px;
+		position:absolute;
+		top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+		height:150px;
+		background-color: rgb(0,0,0);
+		overflow: hidden;
+    color:white;
+    border-radius: 20px;
+    text-transform:uppercase;
+    text-align: center;
+    font-size:15px;
+		}
+
+
+
+#box:hover > *:not(.head){
+	filter:blur(2px);
+}
+
+
+
+#box:hover:after{
+   content: 'VIEW MORE';
+   text-align: center;
+}
+
+body{
+		align-items: center;
+		background-color: black;
+		color:rgba(255,255,255,0.8);
+		font-size:14px;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)) ,url('{% static "ap1/images/colorco.PNG" %}');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+	}
+.heading{
+		background-color:rgba(255, 51, 0,0.3);
+		color:white;
+		text-align: center;
+		padding: 10px;
+
+	}
+
+
+.head{
+	width:250px;
+	background-color: black;
+	padding:10px;
+	border-radius: 10px;
+}
+.more:hover{
+	text-decoration: none;
+	color:white;
+}
+.loadmore{
+	text-align: center;
+	margin-bottom: 0%;
+	margin-top:2400px;
+}
+.loadmore:hover{
+	color:white;
+
+}
+.pic1{
+  width:100px;
+  height:100px;
+  margin-bottom: 20px;
+  margin-right: 50px;
+}
+img{
+  height:100%;
+  width:100%;
+  opacity: 0.8;
+
+}
+</style>
+
+
+<body>
+    <div class="heading">
+        <h1>COVID-19</h1>
+       
+    
+   </div>
+   <ul>
+  		<li><a href="{% url 'home' %}">Latest</a></li>
+      <li><a href="{% url 'sports' %}">Sports</a></li>
+      <li><a href="{% url 'covid' %}">COVID-19</a></li>
+      <li><a href="{% url 'world' %}">World</a></li>
+      <li><a href="{% url 'more' %}">More</a></li>
+    </ul>
+    
+<!--<img src='{% static "ap1/images/colorco.PNG" %}'/>-->
+
+    <div class="container">
+
+                 <a class="more" href={{covid.4}}>
+                      <div id="box">
+                        <p>WORLD  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp {{covid.1}} </p>
+                        <br>
+                        <p>{{covid.2}}  &nbsp &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp {{covid.3}} </p>
+                      </div>
+                     
+
+  
+  <script
+src="http://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>
