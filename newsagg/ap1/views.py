@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import requests
 from bs4 import BeautifulSoup
 import re
+from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User, auth
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 
 
@@ -492,19 +497,204 @@ full_dict['Times Of India']=toi_full_dict
 full_dict['Hindustan TImes']=ht_full_dict
 full_dict['BTC news']=crypt_full_dict
 
+
+#tech
+
+r9 = requests.get("https://www.indiatoday.in/technology/news")
+soups = BeautifulSoup(r9.content, 'html5lib')
+ht_headings = soups.findAll("div", {"class": "detail"})
+templist1=[]
+templist2=[]
+templist3=[]
+templistg=[]
+templista=[]
+for i in ht_headings:
+    for j in i.find_all("h2"):
+       for link in j.find_all('a'):
+          if link.has_attr('href'):
+            templist1.append(link.attrs['href'])
+for i in templist1:
+    string='https://www.indiatoday.in/technology/news'
+    string=string+i
+    templist3.append(string)
+    string=""
+for i in ht_headings:
+    for j in i.find_all('h2'):
+        templist2.append(j.text)
+
+for i in ht_headings:
+    for j in i.find_all('p'):
+        templistg.append(j.text)
+    
+for i in templistg:
+        regex=re.compile(r'[\n\r\t]')
+   
+        i= regex.sub("",i)
+        templista.append(i)
+
+newlist=[list(x) for x in zip(templista,templist3)]
+newdicta=dict(zip(templist2,newlist))
+
+
+r21 = requests.get("https://tech.economictimes.indiatimes.com/latest-news")
+soup1 = BeautifulSoup(r21.content, 'html5lib')
+ht_headings1 = soup1.findAll("div", {"class": "desc"})
+templistb1=[]
+templistl1=[]
+templistk1=[]
+templistg1=[]
+templista1=[]
+for i in ht_headings1:
+    for j in i.find_all("h2"):
+       for link in j.find_all('a'):
+          if link.has_attr('href'):
+            templistb1.append(link.attrs['href'])
+
+for i in ht_headings1:
+    for j in i.find_all('h2'):
+        templistl1.append(j.text)
+    for k in i.find_all('p'):
+        templistg1.append(k.text)
+     
+for i in templistg1:
+        regex=re.compile(r'[\n\r\t]')
+   
+        i= regex.sub("",i)
+        templista1.append(i)
+newlista1=[list(x) for x in zip(templista1,templistb1)]
+newdicta1=dict(zip(templista1,newlista1))
+
+
+
+ndtv_tech = requests.get("https://gadgets.ndtv.com/")
+soup_ndtv_tech = BeautifulSoup(ndtv_tech.content, 'html5lib')
+trending_techa1=[]
+links_techa1=[]
+head_techa1=soup_ndtv_tech.find_all("div",{"class":"nlist bigimglist"})
+for title in head_techa1:
+    for x in title.find_all('a'):
+        if x.has_attr('href'):
+            links_techa1.append(x.attrs['href'])
+        for di in x.find_all('div',{"class":'caption'}):
+            trending_techa1.append(di.text)
+ 
+ndtv_trenda1=dict(zip(trending_techa1,links_techa1))        
+
+#login/ logout/ register
+
+
+def logout(request):
+	auth.logout(request)
+	return render(request,"ap1\logout.html")
+
+def login_view(request):
+	if request.method == "POST":
+		postdata = request.POST.copy()
+		username = postdata.get('username', '')
+		password = postdata.get('password', '')
+		user = authenticate(request,username = username,password = password)
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				return redirect('home')
+			else:
+				request.session['username'] = username
+				user.backend = 'django.contrib.auth.backends.ModelBackend'
+				user.is_active = True
+				user.save()
+		else:
+			messages.info(request, 'Please Check your Login Credentials')
+			return redirect('/login/')
+	else:
+		return render(request,'ap1\login.html')
+
+def register_view(request):
+	if request.method == "POST":
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		email = request.POST['email']
+		if User.objects.filter(username = username).exists():
+			messages.info(request,'USERNAME ALREADY EXISTS')
+			return redirect('register')
+		elif User.objects.filter(email = email).exists():
+			messages.info(request,'Email ALREADY EXISTS')
+			return redirect('register')
+		else:
+			user = User.objects.create_user(username = username,first_name = first_name,last_name = last_name,password = password, email = email)
+			user.save()
+			return redirect('index')
+	else:
+		return render(request,'ap1\\registration.html')
+
+
+#date and time
+
+from datetime import datetime
+
+
+now = datetime.now()
+ 
+list1=[]
+
+d4 = now.strftime("%b-%d-%Y")
+dt_string = now.strftime("%d %b %Y")
+dt_time=now.strftime("%H:%M:%S")
+list1.append(dt_string)
+list1.append(dt_time)
+
+
+
+
+#render
+
 def index(req):
- return render(req, "ap1\index.html",{'ndtv_first5':ndtv_first5,'ht_top5':ht_first5,'toi_top5':toi_first5,'crypt_top5':crypt_first5})
+  return render(req, "ap1\index.html")
+def home(req):
+ return render(req, "ap1\home.html",{'time':list1,'ndtv_first5':ndtv_first5,'ht_top5':ht_first5,'toi_top5':toi_first5,'crypt_top5':crypt_first5})
 
 def world(req):
-  return render(req,"ap1\world.html",{'ndtv_trend':ndtv_trend,'inddict':inddict,'ndtv_dict':ndtv_dict,'world':world})
+  return render(req,"ap1\world.html",{'time':list1,'ndtv_trend':ndtv_trend,'inddict':inddict,'ndtv_dict':ndtv_dict,'world':world})
 
 def sports(req):
-  return render(req,"ap1\sports.html",{'sports':items})
+  return render(req,"ap1\sports.html",{'time':list1,'sports':items})
 def covid(req):
-  return render(req,"ap1\covid.html",{'covid':list53})
+  return render(req,"ap1\covid.html",{'time':list1,'covid':list53})
+
+def techno(req):
+  return render(req,"ap1\\techno.html",{'time':list1,'tech_dict':newdicta,'tech1_dict':newdicta1,'trend_tech':ndtv_trenda1})
 
 def more(req):
-  return render(req,"ap1\more.html",{'full_dict':full_dict})
+  return render(req,"ap1\more.html",{'time':list1,'full_dict':full_dict})
+
+def weather(request):
+  
+    city_name=request.POST.get('num1',"Bangalore")
+    api_key = "3ad2ac3e95c4efef9655dc196435a52c"
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    url = base_url + "appid=" + api_key + "&q=" + city_name
+    response = requests.get(url)
+    x = response.json()
+    list1q=[]
+    if x["cod"] != "404":
+        y = x["main"]
+        current_temperature = y["temp"]  
+        current_pressure = y["pressure"]
+        current_humidiy = y["humidity"]
+        z = x["weather"]
+        weather_description = z[0]["description"]
+        list1q.append(city_name)
+        list1q.append(current_temperature)  
+        list1q.append(current_pressure)
+        list1q.append(current_humidiy)
+        list1q.append(weather_description)
+    else:
+        pass
+    return render(request,'ap1\weather.html',{'result':list1q})
+
+
+
 
 
 

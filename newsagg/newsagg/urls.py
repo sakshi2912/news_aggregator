@@ -20,11 +20,18 @@ from ap1 import views
 
 urlpatterns = [ #path('', include('ap2.urls')),
 path('admin/', admin.site.urls),
-path('', views.index,name="home"),
+path('', views.index,name="index"),
+path('home/', views.home,name="home"),
 path('world/', views.world,name="world"),
 path('sports/', views.sports,name="sports"),
 path('covid/',views.covid,name="covid"),
 path('more/',views.more,name="more"),
+path('techno/',views.techno,name="techno"),
+path('login/',views.login_view,name ="login"),
+path('register/',views.register_view,name ="register"),
+path('logout/',views.logout,name="logout"),
+path('weather/',views.weather,name="weather"),
+
 #path('register',views.register,name = 'register'),
 ]
 	
