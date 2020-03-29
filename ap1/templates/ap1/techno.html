@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <style>
+
 .buttons {
   margin-top: 20px;
   margin-right:0px;
@@ -30,8 +31,7 @@ button {
   text-align: center;
   text-transform: uppercase;
   color: rgb(0, 0, 0);
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
   background-color: transparent;
   outline: none;
   border: none;
@@ -179,24 +179,80 @@ li a:hover:not(.active) {
   text-decoration: none;
 }
 
-#box {	
-		width:300px;
-		border-top:1px solid rgba(231, 52, 5 ,1);
-		border-left:1px solid rgba(231, 52, 5 ,1);
-		border-right:1px solid rgba(231, 52, 5 ,1);
-		border-bottom:1px solid rgba(231, 52, 5 ,1);
-		padding :20px;
-		position: relative;
-		margin:25px;
-		float:left;
-		height:450px;
-		background-color:black;
-		overflow: hidden;
-		border-radius: 10px;
-		
-		}
+#box {   width:300px; 
+        border-top:1px solid rgba(190, 106, 255,1); 
+        border-left:1px solid rgba(190, 106, 255,1);
+        border-right:1px solid rgba(190, 106, 255,1); 
+        border-bottom:1px solid rgba(190, 106, 255,1); 
+        padding :20px;
+        position: relative; 
+        margin:25px; 
+        float:left; 
+        height:450px;
+        background-color:black; 
+        border-radius:10px;
+        overflow:hidden;
 
-  #boxtrend {  
+    
+    }
+
+
+
+#box:hover > *:not(.head){
+  filter:blur(2px);
+}
+
+
+
+#box:hover:after{
+   content: 'READ MORE';
+   text-align: center;
+}
+
+body{
+    align-items: center;
+    background-color: black;
+    color:rgba(255,255,255,0.8);
+    font-size:14px;
+
+
+  }
+.heading{
+    background-color:black;
+    color:white;
+    text-align: center;
+    padding: 10px;
+  border-bottom:1px solid rgba(190, 106, 255,1); 
+
+  }
+
+
+.head {
+  width:250px;
+  background-color: black;
+  padding:10px;
+  border-radius: 10px;
+}
+.more:hover{
+  text-decoration: none;
+  color:white;
+}
+.loadmore{
+  text-align: center;
+  margin-bottom: 0%;
+  margin-top:2400px;
+}
+.loadmore:hover{
+  color:white;
+
+}
+.logo{
+  top:51px;
+  left:-10px;
+  position: fixed;
+
+}
+#boxtrend {  
     width:300px;
     border-top:1px solid white;
     border-left:1px solid white;
@@ -214,70 +270,12 @@ li a:hover:not(.active) {
     
     }
 
-
-
-#box:hover > *:not(.head){
-	filter:blur(2px);
-}
-
-
-
-#box:hover:after{
-   content: 'READ MORE';
-   text-align: center;
-}
-
-body{
-		align-items: center;
-		background-color: black;
-		color:rgba(255,255,255,0.8);
-		font-size:14px;
-    
-
-
-	}
-.heading{
-		background-color:black;
-		color:white;
-		text-align: center;
-		padding: 10px;
-    border-bottom:1px solid rgba(231, 52, 5 ,1);
-
-	}
-
-
-.head{
-	width:250px;
-	background-color: black;
-	padding:10px;
-	border-radius: 10px;
-}
-.more:hover{
-	text-decoration: none;
-	color:white;
-}
-.loadmore{
-	text-align: center;
-	margin-bottom: 0%;
-	margin-top:2400px;
-}
-.loadmore:hover{
-	color:white;
-
-}
-.logo{
-  top:51px;
-  left:-10px;
-  position: fixed;
-
-}
-
 </style>
 
 
 <body>
     <div class="heading">
-        <h1>World</h1>
+        <h1>Technology</h1>
        
     
    </div>
@@ -305,16 +303,13 @@ body{
       
     </ul>
     <div class="container">
-    				
-                 
-                    {% for key,value in ndtv_trend.items %}
-
-
+            
+                  {% for key,value in trend_tech.items %}
                     <a class="more" href={{value}}>
                       <div id="boxtrend">
-                        <div class="head">
+                        
                           <h5>{{key}} </h5>
-                      </div>
+                     
                       <br>
                       <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">Trending</p>
                       </div>
@@ -322,8 +317,8 @@ body{
 
                     {% endfor %}
 
-                    {% for key,value in ndtv_dict.items %}
 
+                  {% for key,value in tech_dict.items %}
 
                     <a class="more" href={{value.1}}>
                       <div id="box">
@@ -331,7 +326,7 @@ body{
                           <h5>{{key}} </h5>
                       </div>
                       <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">NDTV</p>
+                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">India Today</p>
                       <p> {{value.0}}</p>
                 
                       </div>
@@ -340,8 +335,7 @@ body{
                     {% endfor %}
 
 
-                    {% for key,value in inddict.items %}
-
+                    {% for key,value in tech1_dict.items %}
 
                     <a class="more" href={{value.1}}>
                       <div id="box">
@@ -350,14 +344,13 @@ body{
                       </div>
                       <br>
                       <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">Economic Times</p>
-                      <p> {{value.0}}</p>
+                <p> {{value.0}}</p>
                 
                       </div>
                     </a>
 
                     {% endfor %}
-
-	</div>
+  </div>
 
 
   <script
@@ -366,7 +359,6 @@ integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 
 
 </body>

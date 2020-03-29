@@ -671,27 +671,31 @@ def more(req):
 def weather(request):
   
     city_name=request.POST.get('num1',"Bangalore")
-    api_key = "3ad2ac3e95c4efef9655dc196435a52c"
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    url = base_url + "appid=" + api_key + "&q=" + city_name
-    response = requests.get(url)
-    x = response.json()
-    list1q=[]
-    if x["cod"] != "404":
-        y = x["main"]
-        current_temperature = y["temp"]  
-        current_pressure = y["pressure"]
-        current_humidiy = y["humidity"]
-        z = x["weather"]
-        weather_description = z[0]["description"]
-        list1q.append(city_name)
-        list1q.append(current_temperature)  
-        list1q.append(current_pressure)
-        list1q.append(current_humidiy)
-        list1q.append(weather_description)
+    if len(city_name)==0:
+      #city_name=request.POST.get('num1',"Bangalore")
+      return redirect('/weather/')
     else:
-        pass
-    return render(request,'ap1\weather.html',{'result':list1q})
+      api_key = "3ad2ac3e95c4efef9655dc196435a52c"
+      base_url = "http://api.openweathermap.org/data/2.5/weather?"
+      url = base_url + "appid=" + api_key + "&q=" + city_name
+      response = requests.get(url)
+      x = response.json()
+      list1q=[]
+      if x["cod"] != "404":
+          y = x["main"]
+          current_temperature = y["temp"]  
+          current_pressure = y["pressure"]
+          current_humidiy = y["humidity"]
+          z = x["weather"]
+          weather_description = z[0]["description"]
+          list1q.append(city_name)
+          list1q.append(current_temperature)  
+          list1q.append(current_pressure)
+          list1q.append(current_humidiy)
+          list1q.append(weather_description)
+      else:
+          list1q=[]
+      return render(request,'ap1\weather.html',{'result':list1q,'time':list1})
 
 
 

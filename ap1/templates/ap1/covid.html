@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <style>
-
 .buttons {
   margin-top: 20px;
   margin-right:0px;
@@ -31,8 +30,7 @@ button {
   text-align: center;
   text-transform: uppercase;
   color: rgb(0, 0, 0);
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
   background-color: transparent;
   outline: none;
   border: none;
@@ -155,13 +153,14 @@ ul {
   padding: 15px;
   width: 13%;
   background-color:black;
-  position: fixed;
+    position: fixed;
   height: 100%;
   font-size: 16px;
   overflow: auto;
 }
 
 li a {
+  background-color:rgba(0,0,0,0.8);
   display: block;
   color:white;
   padding: 8px 16px;
@@ -180,71 +179,89 @@ li a:hover:not(.active) {
   text-decoration: none;
 }
 
-#box {   width:300px; 
-        border-top:1px solid rgba(190, 106, 255,1); 
-        border-left:1px solid rgba(190, 106, 255,1);
-        border-right:1px solid rgba(190, 106, 255,1); 
-        border-bottom:1px solid rgba(190, 106, 255,1); 
-        padding :20px;
-        position: relative; 
-        margin:25px; 
-        float:left; 
-        height:450px;
-        background-color:black; 
-        border-radius:10px;
-        overflow:hidden;
-
-    
-    }
+#box {	
+		width:250px;
+		border-top:1px solid white;
+		border-left:1px solid white;
+		border-right:1px solid white;
+		border-bottom:1px solid white;
+		padding :25px;
+		position:absolute;
+		top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+		height:150px;
+		background-color: rgb(0,0,0);
+		overflow: hidden;
+    color:white;
+    border-radius: 20px;
+    text-transform:uppercase;
+    text-align: center;
+    font-size:15px;
+		}
 
 
 
 #box:hover > *:not(.head){
-  filter:blur(2px);
+	filter:blur(2px);
 }
 
 
 
 #box:hover:after{
-   content: 'READ MORE';
+   content: 'VIEW MORE';
    text-align: center;
 }
 
 body{
-    align-items: center;
-    background-color: black;
-    color:rgba(255,255,255,0.8);
-    font-size:14px;
+		align-items: center;
+		background-color: black;
+		color:rgba(255,255,255,0.8);
+		font-size:14px;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)) ,url('{% static "ap1/images/colorco.PNG" %}');
+    background-repeat: no-repeat;
+    background-size: cover;
 
-
-  }
+	}
 .heading{
-    background-color:black;
-    color:white;
-    text-align: center;
-    padding: 10px;
-  border-bottom:1px solid rgba(190, 106, 255,1); 
+    width:100%;
+		background-color:transparent;
+		color:white;
+		text-align: center;
+		padding: 10px;
 
-  }
+	}
 
 
-.head {
-  width:250px;
-  background-color: black;
-  padding:10px;
-  border-radius: 10px;
+.head{
+	width:250px;
+	background-color: black;
+	padding:10px;
+	border-radius: 10px;
 }
 .more:hover{
-  text-decoration: none;
-  color:white;
+	text-decoration: none;
+	color:white;
 }
 .loadmore{
-  text-align: center;
-  margin-bottom: 0%;
-  margin-top:2400px;
+	text-align: center;
+	margin-bottom: 0%;
+	margin-top:2400px;
 }
 .loadmore:hover{
-  color:white;
+	color:white;
+
+}
+.pic1{
+  width:100px;
+  height:100px;
+  margin-bottom: 20px;
+  margin-right: 50px;
+}
+img  > *:not(.logo){
+  height:100%;
+  width:100%;
+  opacity: 0.8;
 
 }
 .logo{
@@ -253,30 +270,12 @@ body{
   position: fixed;
 
 }
-#boxtrend {  
-    width:300px;
-    border-top:1px solid white;
-    border-left:1px solid white;
-    border-right:1px solid white;
-    border-bottom:1px solid white;
-    padding :20px;
-    position: relative;
-    margin:25px;
-    float:left;
-    height:450px;
-    background-color:black;
-    overflow: hidden;
-    border-radius: 10px;
-    height:190px;
-    
-    }
-
 </style>
 
 
 <body>
     <div class="heading">
-        <h1>Technology</h1>
+        <h1>COVID-19</h1>
        
     
    </div>
@@ -303,63 +302,26 @@ body{
           </span></a></li>
       
     </ul>
+<!--<img src='{% static "ap1/images/colorco.PNG" %}'/>-->
+
     <div class="container">
-            
-                  {% for key,value in trend_tech.items %}
-                    <a class="more" href={{value}}>
-                      <div id="boxtrend">
-                        
-                          <h5>{{key}} </h5>
+
+                 <a class="more" href={{covid.4}}>
+                      <div id="box">
+                        <p>WORLD  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp {{covid.1}} </p>
+                        <br>
+                        <p>{{covid.2}}  &nbsp &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp {{covid.3}} </p>
+                      </div>
                      
-                      <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">Trending</p>
-                      </div>
-                    </a>
 
-                    {% endfor %}
-
-
-                  {% for key,value in tech_dict.items %}
-
-                    <a class="more" href={{value.1}}>
-                      <div id="box">
-                        <div class="head">
-                          <h5>{{key}} </h5>
-                      </div>
-                      <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">India Today</p>
-                      <p> {{value.0}}</p>
-                
-                      </div>
-                    </a>
-
-                    {% endfor %}
-
-
-                    {% for key,value in tech1_dict.items %}
-
-                    <a class="more" href={{value.1}}>
-                      <div id="box">
-                        <div class="head">
-                          <h5>{{key}} </h5>
-                      </div>
-                      <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">Economic Times</p>
-                <p> {{value.0}}</p>
-                
-                      </div>
-                    </a>
-
-                    {% endfor %}
-  </div>
-
-
+  
   <script
 src="http://code.jquery.com/jquery-3.3.1.min.js"
 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 
 </body>
