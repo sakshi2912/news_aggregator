@@ -7,8 +7,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, auth
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.postgres.search import SearchQuery
+from django.contrib.postgres.search import SearchVector
 
-
+from ap1.models import fullmore, covid1
 
 
 r1 = requests.get("https://www.hindustantimes.com/india-news/")
@@ -47,6 +49,7 @@ for hth in ht_headings:
 for news in ht_soup.find_all('div', attrs={'class': 'media-body'}):
     for c in news.find_all('p'):
         ht_headcontent.append(c.text)
+#print(len(ht_headings),len(ht_headcontent),len(templistb))
 
 
 ht_cont_link=[list(x) for x in zip(ht_headcontent,templistb)]
@@ -109,9 +112,29 @@ for i in templiste:
 new_lst = [list(x) for x in zip(templistc,templistf)]
 
 toi_full_dict=dict(zip(toi_news,new_lst))
+x_list = []
+f_list =[]
+new_toi = []
 toi_first5={k: toi_full_dict[k] for k in list(toi_full_dict)[:5]}
+for i in templistc:
+	i = i.replace('\'','’')
+	i = i.replace('"','’’')
+	x_list.append(i)
+for i in templistf:
+	i = i.replace('\'','’')
+	i = i.replace('"','’’')
+	f_list.append(i)
 
-
+for i in toi_news:
+	i = i.replace('\'','’')
+	i = i.replace('"','’’')
+	new_toi.append(i)
+#testtable.objects.all().delete()
+######################################################################################
+#print(len(toi_news),type(toi_news),len(templistc),type(templistc),len(templistf),type(templistf))
+#for i in range(0,10):
+#	 x = testtable(headlines=str(new_toi[i]), description =str(x_list[i]), hyperlink = str(f_list[i]) )
+#	 x.save()
 ###################crypt
 
 
@@ -644,10 +667,34 @@ dt_time=now.strftime("%H:%M:%S")
 list1.append(dt_string)
 list1.append(dt_time)
 
+source = []
+head = []
+desc = []
+linklist = []
+
+#print(full_dict)
+for i,j in full_dict.items():
+	
+	for key,value in j.items():
+		source.append(i)
+		head.append(key)
+		desc.append(value[0])
+		linklist.append(value[1])
+fullmore.objects.all().delete()
+for i in range(0,len(source)):
+	x = fullmore(headlines = head[i],description = desc[i], hyperlink =linklist[i], source = source[i] )
+	x.save()
+covid1.objects.all().delete()
+covidlist = []
+for i in range(len(list53)):
+	if i%2 != 0 :
+		covidlist.append(list53[i])
+x = covid1(place = 'WORLD',number = covidlist[0])
+x.save()
+x = covid1(place = 'INDIA',number = covidlist[1])
+x.save()
 
 
-
-#render
 
 def index(req):
   return render(req, "ap1\index.html")
@@ -660,14 +707,25 @@ def world(req):
 def sports(req):
   return render(req,"ap1\sports.html",{'time':list1,'sports':items})
 def covid(req):
-  return render(req,"ap1\covid.html",{'time':list1,'covid':list53})
+	data = covid1.objects.all()
+	print(data)
+	return render(req,"ap1\covid.html",{'time':list1,'covid':data,'link': list53})
 
 def techno(req):
   return render(req,"ap1\\techno.html",{'time':list1,'tech_dict':newdicta,'tech1_dict':newdicta1,'trend_tech':ndtv_trenda1})
 
 def more(req):
-  return render(req,"ap1\more.html",{'time':list1,'full_dict':full_dict})
+        
+	data = fullmore.objects.all()
+	print(data)
+	return render(req,"ap1\more.html",{'time':list1,'full_dict':data})
 
+def search(request):
+    keyword=request.POST.get('num1',"")
+    data = fullmore.objects.filter(description__icontains=str(keyword))
+    return render(request , "ap1\search.html",{'full_dict':data})
+    
+    
 def weather(request):
   
     city_name=request.POST.get('num1',"Bangalore")
@@ -696,6 +754,7 @@ def weather(request):
       else:
           list1q=[]
       return render(request,'ap1\weather.html',{'result':list1q,'time':list1})
+
 
 
 

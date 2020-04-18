@@ -3,11 +3,12 @@
 <html>
 <head>
     <title></title>
-    <META HTTP-EQUIV="refresh" CONTENT="15">
+ 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <style>
+
 .buttons {
   margin-top: 20px;
   margin-right:0px;
@@ -150,17 +151,17 @@ button {
 
 ul {
   list-style-type: none;
+  
   padding: 15px;
   width: 13%;
   background-color:black;
-    position: fixed;
+  position: fixed;
   height: 100%;
   font-size: 16px;
   overflow: auto;
 }
 
 li a {
-  background-color:rgba(0,0,0,0.8);
   display: block;
   color:white;
   padding: 8px 16px;
@@ -179,89 +180,72 @@ li a:hover:not(.active) {
   text-decoration: none;
 }
 
-#box {	
-		width:300px;
-		border-top:1px solid white;
-		border-left:1px solid white;
-		border-right:1px solid white;
-		border-bottom:1px solid white;
-		padding :25px;
-		position:absolute;
-		top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-		height:150px;
-		background-color: rgb(0,0,0);
-		overflow: hidden;
-    color:white;
-    border-radius: 20px;
-    text-transform:uppercase;
-    text-align: center;
-    font-size:15px;
-		}
+#box {  
+    width:300px;
+    border-top:1px solid rgba(0, 255, 204,1);
+    border-left:1px solid rgba(0, 255, 204,1);
+    border-right:1px solid rgba(0, 255, 204,1);
+    border-bottom:1px solid rgba(0, 255, 204,1);
+    padding :20px;
+    position: relative;
+    margin:25px;
+    float:left;
+    height:450px;
+    background-color:black;
+    overflow: hidden;
+    border-radius: 10px;
+    
+    }
 
 
 
 #box:hover > *:not(.head){
-	filter:blur(2px);
+  filter:blur(2px);
 }
 
 
 
 #box:hover:after{
-   content: 'VIEW MORE';
+   content: 'READ MORE';
    text-align: center;
 }
 
 body{
-		align-items: center;
-		background-color: black;
-		color:rgba(255,255,255,0.8);
-		font-size:14px;
-    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)) ,url('{% static "ap1/images/colorco.PNG" %}');
-    background-repeat: no-repeat;
-    background-size: cover;
+    align-items: center;
+    background-color: black;
+    color:rgba(255,255,255,0.8);
+    font-size:14px;
 
-	}
+
+  }
 .heading{
-    width:100%;
-		background-color:transparent;
-		color:white;
-		text-align: center;
-		padding: 10px;
+    background-color:black;
+    color:white;
+    text-align: center;
+    padding: 10px;
+    border-bottom:1px solid rgba(0, 255, 204,1);
 
-	}
+  }
 
 
 .head{
-	width:250px;
-	background-color: black;
-	padding:10px;
-	border-radius: 10px;
-}
-.more:hover{
-	text-decoration: none;
-	color:white;
-}
-.loadmore{
-	text-align: center;
-	margin-bottom: 0%;
-	margin-top:2400px;
-}
-.loadmore:hover{
-	color:white;
+  width:250px;
+  background-color: black;
+  padding:10px;
+  border-radius: 10px;
 
 }
-.pic1{
-  width:100px;
-  height:100px;
-  margin-bottom: 20px;
-  margin-right: 50px;
+.more:hover{
+  text-decoration: none;
+  color:white;
 }
-img  > *:not(.logo){
-  height:100%;
-  width:100%;
-  opacity: 0.8;
+.loadmore{
+  text-align: center;
+  margin-bottom: 0%;
+  margin-top:2400px;
+}
+.loadmore:hover{
+  color:white;
 
 }
 .logo{
@@ -270,12 +254,14 @@ img  > *:not(.logo){
   position: fixed;
 
 }
+
+
 </style>
 
 
 <body>
     <div class="heading">
-        <h1>COVID-19</h1>
+        <h1>Search Results</h1>
        
     
    </div>
@@ -302,27 +288,32 @@ img  > *:not(.logo){
           </span></a></li>
       
     </ul>
-<!--<img src='{% static "ap1/images/colorco.PNG" %}'/>-->
-
     <div class="container">
-
-                 <a class="more" href={{link.4}}>
+            
+                 {% for rows in full_dict %}   
+                    
+                    <a class="more" href={{rows.hyperlink}}>
                       <div id="box">
-                        {% for row in covid %}
-                        <p>{{row.place}}  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp {{row.number}} </p>
-                        <br>
-                        {% endfor %}
+                        <div class="head">
+                          <h5>{{rows.headlines}} </h5>
                       </div>
-                     
+                      <br>
+                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">{{rows.source}}</p>
+                <p> {{rows.description}}</p>
+                
+                      </div> 
+                    </a>
 
-  
+                    {% endfor %}
+  </div>
+
+
   <script
 src="http://code.jquery.com/jquery-3.3.1.min.js"
 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 
 
 </body>

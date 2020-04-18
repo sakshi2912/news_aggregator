@@ -31,6 +31,7 @@ path('login/',views.login_view,name ="login"),
 path('register/',views.register_view,name ="register"),
 path('logout/',views.logout,name="logout"),
 path('weather/',views.weather,name="weather"),
+path('search/',views.search,name="search"),
 
 #path('register',views.register,name = 'register'),
 ]

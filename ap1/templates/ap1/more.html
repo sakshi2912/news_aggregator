@@ -290,20 +290,19 @@ body{
     </ul>
     <div class="container">
             
-                 {% for channel,dict in full_dict.items %}   
-                 {% for key,value in dict.items %}
+                 {% for rows in full_dict %}   
                     
-                    <a class="more" href={{value.1}}>
+                    <a class="more" href={{rows.hyperlink}}>
                       <div id="box">
                         <div class="head">
-                          <h5>{{key}} </h5>
+                          <h5>{{rows.headlines}} </h5>
                       </div>
                       <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">{{channel}}</p>
-                <p> {{value.0}}</p>
+                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">{{rows.source}}</p>
+                <p> {{rows.description}}</p>
                 
                       </div> 
-                    </a>{% endfor %}
+                    </a>
 
                     {% endfor %}
   </div>
