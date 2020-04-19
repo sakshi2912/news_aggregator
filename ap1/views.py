@@ -10,21 +10,18 @@ from django.contrib import messages
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchVector
 
-from ap1.models import fullmore, covid1
-
+from ap1.models import fullmore, covid1 , sportsnews,weatherdetails,technews,worldnews
 
 r1 = requests.get("https://www.hindustantimes.com/india-news/")
 r2 = requests.get("https://timesofindia.indiatimes.com/briefs")
 r3 = requests.get("https://www.newsbtc.com/")
-r4 = requests.get("https://www.ndtv.com/world-news")
-
 
 
 
 ht_soup = BeautifulSoup(r1.content, 'html5lib')
 toi_soup = BeautifulSoup(r2.content, 'html5lib')
 cryp_soup = BeautifulSoup(r3.content, 'html5lib')
-soup_ndtv = BeautifulSoup(r4.content, 'html5lib')
+
 ht_headlines = []
 ht_headcontent=[]
 templista=[]
@@ -129,13 +126,7 @@ for i in toi_news:
 	i = i.replace('\'','’')
 	i = i.replace('"','’’')
 	new_toi.append(i)
-#testtable.objects.all().delete()
-######################################################################################
-#print(len(toi_news),type(toi_news),len(templistc),type(templistc),len(templistf),type(templistf))
-#for i in range(0,10):
-#	 x = testtable(headlines=str(new_toi[i]), description =str(x_list[i]), hyperlink = str(f_list[i]) )
-#	 x.save()
-###################crypt
+
 
 
 
@@ -166,62 +157,6 @@ crypt_first5={k: crypt_full_dict[k] for k in list(crypt_full_dict)[:5]}
 
 
 #####ndtv
-list5a=[]
-list5b=[]
-list5c=[]
-r4 = requests.get("https://www.ndtv.com/world-news")
-soup_ndtv = BeautifulSoup(r4.content, 'html5lib')
-ht_ra = requests.get("https://economictimes.indiatimes.com/news/international/world-news")
-ht_soupa = BeautifulSoup(ht_ra.content, 'html5lib')
-headings = ht_soupa.find_all("div", {"class":"eachStory"})
-for i in headings:
-    for data in i.find("h3"):
-        list5a.append(data.text)
-    for cont in i.find_all("p"):
-        list5b.append(cont.text)
-    for link in i.find_all("a"):
-        if link.has_attr('href'):
-            list5c.append('https://economictimes.indiatimes.com'+link.attrs['href'])
-
-newlist_it=[list(x) for x in zip(list5b,list5c)]
-inddict=dict(zip(list5a,newlist_it))
-
-
-templistj=[]
-templistk=[]
-head=soup_ndtv.find_all("div",{"class":"description"})
-for title in head:
-    for x in title.find_all('a'):
-        templistj.append(x.text)
-        if x.has_attr('href'):
-            templistk.append(x.attrs['href'])
-ndtv_trend=dict(zip(templistj,templistk))        
-#print(trend)
-        
-templistl=[]
-templistm=[]
-templistn=[]
-
-title=soup_ndtv.find("div",{"class":"ins_left_rhs"});
-for item in title.find_all("li"):
-    for divi in item.find_all("div",{"class":"new_storylising_contentwrap"}):
-        for anch in divi.find_all("a"):
-            if anch.has_attr('title'):
-                templistm.append(anch.attrs['title'])
-            if anch.has_attr('href'):
-                templistn.append(anch.attrs['href'])
-        for dis in divi.find_all("div",{"class":"nstory_intro"}):
-            templistl.append(dis.text)
-
-        
-newlist_ndtv=[list(x) for x in zip(templistl,templistn)]
-
-ndtv_dict=dict(zip(templistm,newlist_ndtv))
-ndtv_first5={k: ndtv_dict[k] for k in list(ndtv_dict)[:5]}
-
-world={}
-world['Economic Times']=inddict
-world['NDTV']=ndtv_dict
 
 
 # hind sport
@@ -406,7 +341,7 @@ for i in ht_headings:
         for link in data.find_all('a'):
             if link.has_attr('href'):
                list28.append(link.attrs['href']) 
-#print(list27) 
+
 for i in list27:
      regex=re.compile(r'[\n\r\t]')
      if(i.startswith("\n")):
@@ -415,7 +350,7 @@ for i in list27:
         
      else:
         pass
-#print(list31) 
+
 for i in list26:
      regex=re.compile(r'[\n\r\t]')
      if(i.startswith("\n")):
@@ -424,16 +359,16 @@ for i in list26:
         
      else:
         pass
-#print(list32)    
+  
 for i in list28:
     string='https://www.sportspundit.com'
     string=string+i
     list29.append(string)
     string=""
 newlist=[list(x) for x in zip(list32,list29)]
-#print(newlist)
+
 newssports1=dict(zip(list31,newlist))
-#print(newssports1)
+
 #############indianexpress sports news
 list41=[]
 list42=[]
@@ -443,7 +378,7 @@ list45=[]
 ht_r = requests.get("https://indianexpress.com/section/sports/")
 ht_soup = BeautifulSoup(ht_r.content, 'html5lib')
 ht_headings = ht_soup.findAll("div", {"class": "articles"})
-#t_headings1=ht_soup.findALL("h2",{"class":"title"})
+
 for i in ht_headings:
     for data in i.find_all("h2"):
         list41.append(data.text)
@@ -484,35 +419,6 @@ items["IndianExpress"]=newssports2
 
 # covid
 
-list51=[]
-list52=[]
-list53=[]
-list54=[]
-ht_r = requests.get("https://www.hindustantimes.com/")
-ht_soup = BeautifulSoup(ht_r.content, 'html5lib')
-ht_headings = ht_soup.findAll("div", {"class": "widget-inner loadable","id":"election0"})
-ht_headings2 = ht_soup.findAll("div", {"class": "widget-inner loadable","id":"election1"})
-ht_headings1 = ht_soup.findAll("a", {"class":"fll-covrge"})
-for i in ht_headings:
-    for link in i.find_all('a'):
-            if link.has_attr('href'):
-               list52.append(link.attrs['href'])
-#print(list52)
-
-for i in ht_headings1:
-    for link in i.findAll("ul",{"id":"t2"}):
-       
-       for k in link.find_all("span"):
-                list53.append((k.text))
-
-for i in ht_headings1:
-    for link in i.findAll("ul",{"id":"t1"}):
-       
-       for k in link.find_all("span"):
-                list53.append((k.text))
-
-for i in list52:
-    list53.append(i)
 
 #full dict
 full_dict={}
@@ -520,88 +426,6 @@ full_dict['Times Of India']=toi_full_dict
 full_dict['Hindustan TImes']=ht_full_dict
 full_dict['BTC news']=crypt_full_dict
 
-
-#tech
-
-r9 = requests.get("https://www.indiatoday.in/technology/news")
-soups = BeautifulSoup(r9.content, 'html5lib')
-ht_headings = soups.findAll("div", {"class": "detail"})
-templist1=[]
-templist2=[]
-templist3=[]
-templistg=[]
-templista=[]
-for i in ht_headings:
-    for j in i.find_all("h2"):
-       for link in j.find_all('a'):
-          if link.has_attr('href'):
-            templist1.append(link.attrs['href'])
-for i in templist1:
-    string='https://www.indiatoday.in/technology/news'
-    string=string+i
-    templist3.append(string)
-    string=""
-for i in ht_headings:
-    for j in i.find_all('h2'):
-        templist2.append(j.text)
-
-for i in ht_headings:
-    for j in i.find_all('p'):
-        templistg.append(j.text)
-    
-for i in templistg:
-        regex=re.compile(r'[\n\r\t]')
-   
-        i= regex.sub("",i)
-        templista.append(i)
-
-newlist=[list(x) for x in zip(templista,templist3)]
-newdicta=dict(zip(templist2,newlist))
-
-
-r21 = requests.get("https://tech.economictimes.indiatimes.com/latest-news")
-soup1 = BeautifulSoup(r21.content, 'html5lib')
-ht_headings1 = soup1.findAll("div", {"class": "desc"})
-templistb1=[]
-templistl1=[]
-templistk1=[]
-templistg1=[]
-templista1=[]
-for i in ht_headings1:
-    for j in i.find_all("h2"):
-       for link in j.find_all('a'):
-          if link.has_attr('href'):
-            templistb1.append(link.attrs['href'])
-
-for i in ht_headings1:
-    for j in i.find_all('h2'):
-        templistl1.append(j.text)
-    for k in i.find_all('p'):
-        templistg1.append(k.text)
-     
-for i in templistg1:
-        regex=re.compile(r'[\n\r\t]')
-   
-        i= regex.sub("",i)
-        templista1.append(i)
-newlista1=[list(x) for x in zip(templista1,templistb1)]
-newdicta1=dict(zip(templista1,newlista1))
-
-
-
-ndtv_tech = requests.get("https://gadgets.ndtv.com/")
-soup_ndtv_tech = BeautifulSoup(ndtv_tech.content, 'html5lib')
-trending_techa1=[]
-links_techa1=[]
-head_techa1=soup_ndtv_tech.find_all("div",{"class":"nlist bigimglist"})
-for title in head_techa1:
-    for x in title.find_all('a'):
-        if x.has_attr('href'):
-            links_techa1.append(x.attrs['href'])
-        for di in x.find_all('div',{"class":'caption'}):
-            trending_techa1.append(di.text)
- 
-ndtv_trenda1=dict(zip(trending_techa1,links_techa1))        
 
 #login/ logout/ register
 
@@ -667,32 +491,28 @@ dt_time=now.strftime("%H:%M:%S")
 list1.append(dt_string)
 list1.append(dt_time)
 
-source = []
-head = []
-desc = []
-linklist = []
 
-#print(full_dict)
-for i,j in full_dict.items():
-	
-	for key,value in j.items():
-		source.append(i)
-		head.append(key)
-		desc.append(value[0])
-		linklist.append(value[1])
-fullmore.objects.all().delete()
-for i in range(0,len(source)):
-	x = fullmore(headlines = head[i],description = desc[i], hyperlink =linklist[i], source = source[i] )
-	x.save()
-covid1.objects.all().delete()
-covidlist = []
-for i in range(len(list53)):
-	if i%2 != 0 :
-		covidlist.append(list53[i])
-x = covid1(place = 'WORLD',number = covidlist[0])
-x.save()
-x = covid1(place = 'INDIA',number = covidlist[1])
-x.save()
+templistl=[]
+templistm=[]
+templistn=[]
+r4 = requests.get("https://www.ndtv.com/world-news")
+soup_ndtv = BeautifulSoup(r4.content, 'html5lib')
+title=soup_ndtv.find("div",{"class":"ins_left_rhs"});
+for item in title.find_all("li"):
+    for divi in item.find_all("div",{"class":"new_storylising_contentwrap"}):
+        for anch in divi.find_all("a"):
+            if anch.has_attr('title'):
+                templistm.append(anch.attrs['title'])
+            if anch.has_attr('href'):
+                templistn.append(anch.attrs['href'])
+        for dis in divi.find_all("div",{"class":"nstory_intro"}):
+            templistl.append(dis.text)
+
+            
+newlist_ndtv=[list(x) for x in zip(templistl,templistn)]
+
+ndtv_dict=dict(zip(templistm,newlist_ndtv))
+ndtv_first5={k: ndtv_dict[k] for k in list(ndtv_dict)[:5]}
 
 
 
@@ -702,58 +522,282 @@ def home(req):
  return render(req, "ap1\home.html",{'time':list1,'ndtv_first5':ndtv_first5,'ht_top5':ht_first5,'toi_top5':toi_first5,'crypt_top5':crypt_first5})
 
 def world(req):
-  return render(req,"ap1\world.html",{'time':list1,'ndtv_trend':ndtv_trend,'inddict':inddict,'ndtv_dict':ndtv_dict,'world':world})
+
+    list5a=[]
+    list5b=[]
+    list5c=[]
+    r4 = requests.get("https://www.ndtv.com/world-news")
+    soup_ndtv = BeautifulSoup(r4.content, 'html5lib')
+    ht_ra = requests.get("https://economictimes.indiatimes.com/news/international/world-news")
+    ht_soupa = BeautifulSoup(ht_ra.content, 'html5lib')
+    headings = ht_soupa.find_all("div", {"class":"eachStory"})
+    for i in headings:
+        for data in i.find("h3"):
+            list5a.append(data.text)
+        for cont in i.find_all("p"):
+            list5b.append(cont.text)
+        for link in i.find_all("a"):
+            if link.has_attr('href'):
+                list5c.append('https://economictimes.indiatimes.com'+link.attrs['href'])
+
+    newlist_it=[list(x) for x in zip(list5b,list5c)]
+    inddict=dict(zip(list5a,newlist_it))
+
+
+    templistj=[]
+    templistk=[]
+    head=soup_ndtv.find_all("div",{"class":"description"})
+    for title in head:
+        for x in title.find_all('a'):
+            templistj.append(x.text)
+            if x.has_attr('href'):
+                templistk.append(x.attrs['href'])
+    ndtv_trend=dict(zip(templistj,templistk))        
+    #print(trend)
+            
+
+
+    world={}
+    world['Economic Times']=inddict
+    world['NDTV']=ndtv_dict
+    
+    source = []
+    head = []
+    desc = []
+    linklist = []
+    for i,j in world.items():
+	    for key,value in j.items():
+                source.append(i)
+                head.append(key)
+                desc.append(value[0])
+                linklist.append(value[1])
+    worldnews.objects.all().delete()
+
+    for i in range(0,len(source)):
+	    x = worldnews(headlines = head[i],description = desc[i], hyperlink =linklist[i], source = source[i] )
+	    x.save()
+    data = worldnews.objects.all()
+    return render(req,"ap1\world.html",{'time':list1,'ndtv_trend':ndtv_trend,'world_dict':data})
+
+   
+    
 
 def sports(req):
-  return render(req,"ap1\sports.html",{'time':list1,'sports':items})
+    sportsnews.objects.all().delete()
+    return render(req,"ap1\sports.html",{'time':list1,'sports':items})
+
+
 def covid(req):
-	data = covid1.objects.all()
-	print(data)
-	return render(req,"ap1\covid.html",{'time':list1,'covid':data,'link': list53})
+
+    list51=[]
+    list52=[]
+    list53=[]
+    list54=[]
+    ht_r = requests.get("https://www.hindustantimes.com/")
+    ht_soup = BeautifulSoup(ht_r.content, 'html5lib')
+    ht_headings = ht_soup.findAll("div", {"class": "widget-inner loadable","id":"election0"})
+    ht_headings2 = ht_soup.findAll("div", {"class": "widget-inner loadable","id":"election1"})
+    ht_headings1 = ht_soup.findAll("a", {"class":"fll-covrge"})
+    for i in ht_headings:
+        for link in i.find_all('a'):
+                if link.has_attr('href'):
+                    list52.append(link.attrs['href'])
+
+    for i in ht_headings1:
+        for link in i.findAll("ul",{"id":"t2"}): 
+            for k in link.find_all("span"):
+                    list53.append((k.text))
+
+    for i in ht_headings1:
+        for link in i.findAll("ul",{"id":"t1"}):
+            for k in link.find_all("span"):
+                    list53.append((k.text))
+
+    for i in list52:
+        list53.append(i)
+
+
+    covid1.objects.all().delete()
+    covidlist = []
+    for i in range(len(list53)):
+	    if i%2 != 0 :
+		    covidlist.append(list53[i])
+    x = covid1(place = 'WORLD',number = covidlist[0])
+    x.save()
+    x = covid1(place = 'INDIA',number = covidlist[1])
+    x.save()
+    data = covid1.objects.all()
+
+    return render(req,"ap1\covid.html",{'time':list1,'covid':data,'link': list53})
 
 def techno(req):
-  return render(req,"ap1\\techno.html",{'time':list1,'tech_dict':newdicta,'tech1_dict':newdicta1,'trend_tech':ndtv_trenda1})
+
+    r9 = requests.get("https://www.indiatoday.in/technology/news")
+    soups = BeautifulSoup(r9.content, 'html5lib')
+    ht_headings = soups.findAll("div", {"class": "detail"})
+    templist1=[]
+    templist2=[]
+    templist3=[]
+    templistg=[]
+    templista=[]
+    for i in ht_headings:
+        for j in i.find_all("h2"):
+            for link in j.find_all('a'):
+                if link.has_attr('href'):
+                    templist1.append(link.attrs['href'])
+    for i in templist1:
+        string='https://www.indiatoday.in/'
+        string=string+i
+        templist3.append(string)
+        string=""
+    for i in ht_headings:
+        for j in i.find_all('h2'):
+            templist2.append(j.text)
+
+    for i in ht_headings:
+        for j in i.find_all('p'):
+            templistg.append(j.text)
+        
+    for i in templistg:
+            regex=re.compile(r'[\n\r\t]')
+            i= regex.sub("",i)
+            templista.append(i)
+
+    newlist=[list(x) for x in zip(templista,templist3)]
+    newdicta=dict(zip(templist2,newlist))
+    
+
+
+    r21 = requests.get("https://tech.economictimes.indiatimes.com/latest-news")
+    soup1 = BeautifulSoup(r21.content, 'html5lib')
+    ht_headings1 = soup1.findAll("div", {"class": "desc"})
+    templistb1=[]
+    templistl1=[]
+    templistk1=[]
+    templistg1=[]
+    templista1=[]
+    for i in ht_headings1:
+        for j in i.find_all("h2"):
+            for link in j.find_all('a'):
+                if link.has_attr('href'):
+                    templistb1.append(link.attrs['href'])
+
+    for i in ht_headings1:
+        for j in i.find_all('h2'):
+            templistl1.append(j.text)
+        for k in i.find_all('p'):
+            templistg1.append(k.text)
+        
+    for i in templistg1:
+            regex=re.compile(r'[\n\r\t]')
+            i= regex.sub("",i)
+            templista1.append(i)
+    newlista1=[list(x) for x in zip(templista1,templistb1)]
+    newdicta1=dict(zip(templista1,newlista1))
+    
+
+    ndtv_tech = requests.get("https://gadgets.ndtv.com/")
+    soup_ndtv_tech = BeautifulSoup(ndtv_tech.content, 'html5lib')
+    trending_techa1=[]
+    links_techa1=[]
+    head_techa1=soup_ndtv_tech.find_all("div",{"class":"nlist bigimglist"})
+    for title in head_techa1:
+        for x in title.find_all('a'):
+            if x.has_attr('href'):
+                links_techa1.append(x.attrs['href'])
+                for di in x.find_all('div',{"class":'caption'}):
+                    trending_techa1.append(di.text)
+    
+    ndtv_trenda1=dict(zip(trending_techa1,links_techa1))
+
+    tech_full ={}
+    tech_full['Economic Times']=newdicta1
+    tech_full['India Today']=newdicta
+    source = []
+    head = []
+    desc = []
+    linklist = []
+    for i,j in tech_full.items():
+	    for key,value in j.items():
+                source.append(i)
+                head.append(key)
+                desc.append(value[0])
+                linklist.append(value[1])
+    technews.objects.all().delete()
+
+    for i in range(0,len(source)):
+	    x = technews(headlines = head[i],description = desc[i], hyperlink =linklist[i], source = source[i] )
+	    x.save()
+    data = technews.objects.all()
+    return render(req,"ap1\\techno.html",{'time':list1,'full_dict1':data,'trend_tech':ndtv_trenda1})
 
 def more(req):
-        
-	data = fullmore.objects.all()
-	print(data)
-	return render(req,"ap1\more.html",{'time':list1,'full_dict':data})
+    source = []
+    head = []
+    desc = []
+    linklist = []
+    for i,j in full_dict.items():
+	    for key,value in j.items():
+                source.append(i)
+                head.append(key)
+                desc.append(value[0])
+                linklist.append(value[1])
+    fullmore.objects.all().delete()
+
+    for i in range(0,len(source)):
+	    x = fullmore(headlines = head[i],description = desc[i], hyperlink =linklist[i], source = source[i] )
+	    x.save()
+    data = fullmore.objects.all()
+    return render(req,"ap1\more.html",{'time':list1,'full_dict':data})
+
+
 
 def search(request):
     keyword=request.POST.get('num1',"")
     data = fullmore.objects.filter(description__icontains=str(keyword))
-    return render(request , "ap1\search.html",{'full_dict':data})
+    data1 = technews.objects.filter(description__icontains=str(keyword))
+    data2 = worldnews.objects.filter(description__icontains=str(keyword))
+    """
+    if not data:
+        messages.info(request, 'No results')
+        return redirect('search')
+    """
+    
+    return render(request , "ap1\search.html",{'full_dict':data,'full_dict1':data1,'world_dict':data2,'time':list1})
     
     
 def weather(request):
   
     city_name=request.POST.get('num1',"Bangalore")
     if len(city_name)==0:
-      #city_name=request.POST.get('num1',"Bangalore")
-      return redirect('/weather/')
+        return redirect('/weather/')
     else:
-      api_key = "3ad2ac3e95c4efef9655dc196435a52c"
-      base_url = "http://api.openweathermap.org/data/2.5/weather?"
-      url = base_url + "appid=" + api_key + "&q=" + city_name
-      response = requests.get(url)
-      x = response.json()
-      list1q=[]
-      if x["cod"] != "404":
-          y = x["main"]
-          current_temperature = y["temp"]  
-          current_pressure = y["pressure"]
-          current_humidiy = y["humidity"]
-          z = x["weather"]
-          weather_description = z[0]["description"]
-          list1q.append(city_name)
-          list1q.append(int(int(current_temperature)-273.15))  
-          list1q.append(current_pressure)
-          list1q.append(current_humidiy)
-          list1q.append(weather_description)
-      else:
-          list1q=[]
-      return render(request,'ap1\weather.html',{'result':list1q,'time':list1})
+        api_key = "3ad2ac3e95c4efef9655dc196435a52c"
+        base_url = "http://api.openweathermap.org/data/2.5/weather?"
+        url = base_url + "appid=" + api_key + "&q=" + city_name
+        response = requests.get(url)
+        x = response.json()
+        list1q=[]
+        if x["cod"] != "404":
+            y = x["main"]
+            current_temperature = y["temp"]  
+            current_pressure = y["pressure"]
+            current_humidiy = y["humidity"]
+            z = x["weather"]
+            weather_description = z[0]["description"]
+            list1q.append(city_name)
+            list1q.append(int(int(current_temperature)-273.15))  
+            list1q.append(current_pressure)
+            list1q.append(current_humidiy)
+            list1q.append(weather_description)
+        else:
+            list1q=[]
+        weatherdetails.objects.all().delete()
+        for i in range(0,len(list1q)):
+            x = weatherdetails(city = list1q[0],temperature =  list1q[1],pressure = list1q[2], humidity =  list1q[3],description=list1q[4] )
+            x.save()
+        data = weatherdetails.objects.all()
+        return render(request,'ap1\weather.html',{'result':data,'time':list1})
 
 
 

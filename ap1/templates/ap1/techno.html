@@ -6,6 +6,7 @@
     <META HTTP-EQUIV="refresh" CONTENT="15">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <style>
 
@@ -270,6 +271,44 @@ body{
     
     }
 
+    /* Style the search field */
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 12px;
+  border: 1px solid grey;
+  
+  width: 50%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+ 
+  width: 20%;
+  padding: 10px;
+  background: rgb(0, 0, 0);
+  color: white;
+  font-size: 12px;
+  border: 1px solid grey;
+  
+  cursor: pointer;
+}
+form.example{
+  right:0px;
+  top:20px;
+  position:fixed;
+}
+form.example button:hover {
+  background: #3e3f3f;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 </style>
 
 
@@ -279,6 +318,10 @@ body{
        
     
    </div>
+   <form class="example" action="{% url 'search' %}" method="POST">
+    <input type="text" placeholder="Search.." name="num1">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
    <ul>
       {% if request.user.is_authenticated %}<br>
       <li>Hello {{ user.get_username}}</li> {% endif %}<br>
@@ -318,35 +361,18 @@ body{
                     {% endfor %}
 
 
-                  {% for key,value in tech_dict.items %}
-
-                    <a class="more" href={{value.1}}>
+                    {% for rows in full_dict1  %}   
+                    
+                    <a class="more" href={{rows.hyperlink}}>
                       <div id="box">
                         <div class="head">
-                          <h5>{{key}} </h5>
+                          <h5>{{rows.headlines}} </h5>
                       </div>
                       <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">India Today</p>
-                      <p> {{value.0}}</p>
+                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">{{rows.source}}</p>
+                <p> {{rows.description}}</p>
                 
-                      </div>
-                    </a>
-
-                    {% endfor %}
-
-
-                    {% for key,value in tech1_dict.items %}
-
-                    <a class="more" href={{value.1}}>
-                      <div id="box">
-                        <div class="head">
-                          <h5>{{key}} </h5>
-                      </div>
-                      <br>
-                      <p style="color:rgba(255,255,255,0.5);font-size: 10px; ">Economic Times</p>
-                <p> {{value.0}}</p>
-                
-                      </div>
+                      </div> 
                     </a>
 
                     {% endfor %}
