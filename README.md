@@ -9,3 +9,8 @@ If no errors persist , run
 
 Uncomment the models and run : 
 > python manage.py runserver 
+
+# Features
+- Different categories of news
+- Search by key-word
+- Realtime 
